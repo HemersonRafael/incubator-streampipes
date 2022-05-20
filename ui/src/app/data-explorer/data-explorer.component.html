@@ -66,7 +66,9 @@
 
 
     <div fxLayout="column" fxFlex="100" *ngIf="dashboardsLoaded">
-        <sp-data-explorer-dashboard-overview (selectDashboardEmitter)="openDashboard($event)"
+
+        <ng-content fxFlex="100"></ng-content>
+        <!-- <sp-data-explorer-dashboard-overview (selectDashboardEmitter)="openDashboard($event)"
                                              (reloadDashboardsEmitter)="getDashboards()"
                                              [dataViewDashboards]="dataViewDashboards"
                                              *ngIf="!dashboardTabSelected">
@@ -81,6 +83,6 @@
                                           [timeRangeVisible]="timeRangeVisible"
                                           class="dashboard-panel"
                                           *ngIf="dashboardTabSelected">
-        </sp-data-explorer-dashboard-panel>
+        </sp-data-explorer-dashboard-panel> -->
     </div>
 </div>

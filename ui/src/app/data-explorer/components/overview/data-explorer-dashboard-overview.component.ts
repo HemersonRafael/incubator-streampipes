@@ -26,6 +26,7 @@ import { ObjectPermissionDialogComponent } from '../../../core-ui/object-permiss
 import { UserRole } from '../../../_enums/user-role.enum';
 import { AuthService } from '../../../services/auth.service';
 import { UserPrivilege } from '../../../_enums/user-privilege.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sp-data-explorer-dashboard-overview',
@@ -34,22 +35,25 @@ import { UserPrivilege } from '../../../_enums/user-privilege.enum';
 })
 export class DataExplorerDashboardOverviewComponent implements OnInit {
 
-  @Input() dataViewDashboards: Dashboard[];
+  dataViewDashboards: Dashboard[] = [];
+  dashboardsLoaded = false;
+
   @Output() reloadDashboardsEmitter = new EventEmitter<void>();
   @Output() selectDashboardEmitter = new EventEmitter<Tuple2<Dashboard, boolean>>();
 
   dataSource = new MatTableDataSource<Dashboard>();
   displayedColumns: string[] = [];
 
-  editLabels: boolean;
   isAdmin = false;
 
   hasDataExplorerWritePrivileges = false;
   hasDataExplorerDeletePrivileges = false;
 
-  constructor(private dashboardService: DataViewDataExplorerService,
+  constructor(private dataViewService: DataViewDataExplorerService,
+              private dashboardService: DataViewDataExplorerService,
               public dialogService: DialogService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private router: Router) {
 
   }
 
@@ -61,8 +65,7 @@ export class DataExplorerDashboardOverviewComponent implements OnInit {
       this.displayedColumns = ['name', 'actions'];
 
     });
-    this.dataSource.data = this.dataViewDashboards;
-    this.editLabels = false;
+    this.getDashboards();
   }
 
   openNewDataViewDialog() {
@@ -71,11 +74,7 @@ export class DataExplorerDashboardOverviewComponent implements OnInit {
 
     this.openDataViewModificationDialog(true, dataViewDashboard);
   }
-
-  openEditLabelView() {
-    this.editLabels = true;
-  }
-
+  
   openDataViewModificationDialog(createMode: boolean, dashboard: Dashboard) {
     const dialogRef = this.dialogService.open(DataExplorerEditDataViewDialogComponent, {
       panelType: PanelType.STANDARD_PANEL,
@@ -123,7 +122,20 @@ export class DataExplorerDashboardOverviewComponent implements OnInit {
   }
 
   showDashboard(dashboard: Dashboard, editMode: boolean) {
-    const dashboardSettings: Tuple2<Dashboard, boolean> = { a: dashboard, b: editMode };
-    this.selectDashboardEmitter.emit(dashboardSettings);
+    // const dashboardSettings: Tuple2<Dashboard, boolean> = { a: dashboard, b: editMode };
+    // this.selectDashboardEmitter.emit(dashboardSettings);
+    this.router.navigate(['dataexplorer/', dashboard._id]);
+    
   }
+  
+  getDashboards() {
+    this.dashboardsLoaded = false;
+    this.dataViewService.getDataViews().subscribe(data => {
+      this.dataViewDashboards = data.sort((a, b) => a.name.localeCompare(b.name));
+      this.dashboardsLoaded = true;
+      this.dataSource.data = this.dataViewDashboards;
+    });
+  }
+
+
 }

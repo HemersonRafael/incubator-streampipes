@@ -16,7 +16,7 @@
  *
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DataViewDataExplorerService, Dashboard } from '@streampipes/platform-services';
 import { RefreshDashboardService } from './services/refresh-dashboard.service';
 import { DataExplorerDashboardPanelComponent } from './components/panel/data-explorer-dashboard-panel.component';
@@ -32,17 +32,24 @@ import { UserPrivilege } from '../_enums/user-privilege.enum';
 })
 export class DataExplorerComponent implements OnInit {
 
+  @Input()
+  activeLink: string;
+
+  @Input()
+  dataViewDashboards: Dashboard[];
+
+  @Input()
+  dashboardsLoaded: boolean;
+
   selectedDataViewDashboard: Dashboard;
   selectedIndex = 0;
-  dashboardsLoaded = false;
   dashboardTabSelected = false;
 
   timeRangeVisible = true;
 
   editMode = true;
-  dataViewDashboards: Dashboard[];
 
-  routeParams: any;
+ routeParams: any;
 
   hasDataExplorerWritePrivileges = false;
   hasDataExplorerDeletePrivileges = false;

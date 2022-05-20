@@ -33,6 +33,7 @@ import {
 } from '@streampipes/platform-services';
 import { DataExplorerDesignerPanelComponent } from '../designer-panel/data-explorer-designer-panel.component';
 import { TimeSelectionService } from '../../services/time-selection.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sp-data-explorer-dashboard-panel',
@@ -41,7 +42,7 @@ import { TimeSelectionService } from '../../services/time-selection.service';
 })
 export class DataExplorerDashboardPanelComponent implements OnInit {
 
-  @Input() dashboard: Dashboard;
+  dashboard: Dashboard;
 
   /**
    * This is the date range (start, end) to view the data and is set in data-explorer.ts
@@ -72,8 +73,13 @@ export class DataExplorerDashboardPanelComponent implements OnInit {
 
   constructor(private dataViewDataExplorerService: DataViewDataExplorerService,
               public dialog: MatDialog,
-              private refreshDashboardService: RefreshDashboardService,
-              private timeSelectionService: TimeSelectionService) {
+              private timeSelectionService: TimeSelectionService,
+              private route: ActivatedRoute,
+              private dataViewService: DataViewDataExplorerService) {
+
+              this.route.params.subscribe( (params) => {
+                this.getDashboard(params.id);
+              });
   }
 
   public ngOnInit() {
@@ -207,5 +213,11 @@ export class DataExplorerDashboardPanelComponent implements OnInit {
     this.currentlyConfiguredWidget = undefined;
     this.dataLakeMeasure = undefined;
     this.currentlyConfiguredWidgetId = undefined;
+  }
+
+  getDashboard(dashboardId: string) {
+    this.dataViewService.getDataViews().subscribe(data => {
+      this.dashboard = data.filter(dashboard => dashboard._id === dashboardId)[0];
+    });
   }
 }
