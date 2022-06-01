@@ -36,7 +36,7 @@ spec:
         #TODO: wurstmeister/zookeeper:latest is running ZK 3.4.13. Once this
         #      changes, the mount path needs to be adapted
         - name: zookeeper
-          image: fogsyio/zookeeper:{{ .Values.external.zookeeperVersion }}
+          image: {{ .Values.external.registry }}/zookeeper:{{ .Values.external.zookeeperVersion }}
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
             - containerPort: 2181

@@ -20,16 +20,17 @@ persistentVolumeReclaimPolicy: "Retain"
 persistentVolumeAccessModes: "ReadWriteOnce"
 
 streampipes:
-  version: "0.70.0-SNAPSHOT"
+  version: "0.69.0-SNAPSHOT"
   registry: "apachestreampipes"
 
 external:
   consulVersion: 1.9.6
   couchdbVersion: 2.3.1
-  flinkVersion: 1.13.5-scala_2.11
-  kafkaVersion: 2.2.0
-  zookeeperVersion: 3.4.13
-  influxdbVersion: 1.7
+  flinkVersion: 1.13.6-scala_2.11
+  kafkaVersion: 3.71
+  zookeeperVersion: 3.6.3
+  influxdbVersion: 2.2.0
+  registry: "hemersonrafael"
 
 
 # NOTE: Local testing only!
