@@ -27,8 +27,8 @@ external:
   consulVersion: 1.9.6
   couchdbVersion: 2.3.1
   flinkVersion: 1.13.6-scala_2.11
-  kafkaVersion: 3.71
-  zookeeperVersion: 3.6.3
+  kafkaVersion: 2.2.0
+  zookeeperVersion: 3.4.13
   influxdbVersion: 2.2.0
   registry: "hemersonrafael"
 
